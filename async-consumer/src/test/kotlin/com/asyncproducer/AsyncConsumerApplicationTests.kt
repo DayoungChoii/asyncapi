@@ -1,10 +1,10 @@
-package com.asyncapi
+package com.asyncproducer
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class AsyncapiApplicationTests {
+class AsyncConsumerApplicationTests {
 
 	@Test
 	fun contextLoads() {
