@@ -1,6 +1,6 @@
 package com.asyncconsumer.partner.controller
 
-import com.asyncconsumer.common.StatusResult
+import com.asyncconsumer.common.StatusDataResult
 import com.asyncconsumer.common.toResponse
 import com.asyncconsumer.partner.constant.PartnerCreationStatus
 import com.asyncconsumer.partner.dto.PartnerCreationRequest
@@ -13,6 +13,6 @@ class PartnerController (
     private val partnerService: PartnerService
 ) {
 
-    fun createPartner(request: PartnerCreationRequest): ResponseEntity<StatusResult<PartnerCreationStatus>> =
-        StatusResult(partnerService.createPartner(request)).toResponse()
+    fun createPartner(request: PartnerCreationRequest): ResponseEntity<StatusDataResult<PartnerCreationStatus, Long>> =
+        partnerService.createPartner(request).toResponse()
 }
