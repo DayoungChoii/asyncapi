@@ -3,13 +3,9 @@ package com.rds.product
 import com.rds.BaseTimeEntity
 import com.rds.partner.Partner
 import com.rds.product.ProductStatus.ACTIVE
-import jakarta.persistence.Entity
+import jakarta.persistence.*
 import jakarta.persistence.FetchType.LAZY
-import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType.IDENTITY
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
 import java.math.BigDecimal
 
 @Entity
@@ -24,5 +20,6 @@ class Product (
     @Id
     @GeneratedValue(strategy = IDENTITY)
     val id: Long = 0L
+    @Enumerated(EnumType.STRING)
     val status: ProductStatus = ACTIVE
 }

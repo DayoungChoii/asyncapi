@@ -2,10 +2,8 @@ package com.rds.partner
 
 import com.rds.BaseTimeEntity
 import com.rds.partner.PartnerStatus.ACTIVE
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
+import jakarta.persistence.*
 import jakarta.persistence.GenerationType.IDENTITY
-import jakarta.persistence.Id
 
 @Entity
 class Partner (
@@ -16,5 +14,6 @@ class Partner (
     @Id
     @GeneratedValue(strategy = IDENTITY)
     val id: Long = 0L
+    @Enumerated(EnumType.STRING)
     val status: PartnerStatus = ACTIVE
 }
