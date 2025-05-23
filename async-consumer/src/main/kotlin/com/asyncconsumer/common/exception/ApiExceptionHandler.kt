@@ -16,7 +16,7 @@ class ApiExceptionHandler {
 
     @ExceptionHandler(CustomException::class)
     fun handleException(e: CustomException, request: HttpServletRequest): ResponseEntity<String?> {
-        log.error("ERROR[] : ${e.type.message} \n ${e.stackTraceToString()}")
-        return ExceptionResult(e.type.httpStatusCode, e.message).toResponse()
+        log.error("ERROR[] : ${e.message} \n ${e.stackTraceToString()}")
+        return ExceptionResult(e.httpStatusCode, e.message).toResponse()
     }
 }
