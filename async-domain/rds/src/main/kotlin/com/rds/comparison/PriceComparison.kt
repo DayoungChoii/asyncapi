@@ -13,15 +13,15 @@ import jakarta.persistence.ManyToOne
 import java.math.BigDecimal
 
 @Entity
-class Comparison (
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "partner_id")
-    val partner: Partner,
+class PriceComparison (
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "product_id")
     val product: Product,
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "integration_id")
+    val integrationSite: IntegrationSite,
     val price: BigDecimal,
-
+    val productUrl: String,
 ): BaseTimeEntity() {
     @Id
     @GeneratedValue(strategy = IDENTITY)
