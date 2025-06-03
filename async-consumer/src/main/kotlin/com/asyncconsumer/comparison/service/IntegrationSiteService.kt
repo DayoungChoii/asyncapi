@@ -15,10 +15,12 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class IntegrationSiteService (
     private val integrationSiteRepository: IntegrationSiteRepository,
+    private val integrationSiteCacheService: IntegrationSiteCacheService,
 ) {
     @Transactional
     fun createIntegrationSite(request: IntegrationSiteCreationRequest): StatusDataResult<PartnerCreationStatus, Long> {
         val integrationSite = integrationSiteRepository.save(request.toIntegrationSite())
+        integrationSiteCacheService.cacheIntegrationSite(integrationSite)
         return StatusDataResult(SUCCESS, integrationSite.id)
     }
 }
