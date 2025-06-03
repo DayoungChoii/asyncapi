@@ -4,6 +4,7 @@ import com.appmattus.kotlinfixture.kotlinFixture
 import com.asyncconsumer.AsyncConsumerApplication
 import com.asyncconsumer.comparison.dto.IntegrationSiteCreationRequest
 import com.asyncconsumer.partner.constant.PartnerCreationStatus
+import com.asyncconsumer.product.dto.ProductCreationRequest
 import com.rds.comparison.IntegrationSiteRepository
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Assertions.*
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
+import java.math.BigDecimal
 
 @ActiveProfiles("test")
 @SpringBootTest(classes = [AsyncConsumerApplication::class])
@@ -23,7 +25,9 @@ class IntegrationSiteServiceTest (
     @Test
     fun `IntegrationSite 생성 테스트`() {
         //given
-        val request: IntegrationSiteCreationRequest = fixture()
+        val request: IntegrationSiteCreationRequest = fixture<IntegrationSiteCreationRequest>() {
+            property(IntegrationSiteCreationRequest::code) {"COUPUNG"}
+        }
 
         //when
         val result = integrationSiteService.createIntegrationSite(request)
