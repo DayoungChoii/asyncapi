@@ -1,8 +1,10 @@
 package com.rds.comparison
 
 import com.rds.BaseTimeEntity
+import com.rds.comparison.IntegrationSiteStatus.*
 import jakarta.persistence.*
 import jakarta.persistence.EnumType.*
+import jakarta.persistence.GenerationType.*
 
 @Entity
 class IntegrationSite (
@@ -12,9 +14,9 @@ class IntegrationSite (
     val integrationType: IntegrationType,
     val apiEndPoint: String,
     @Enumerated(STRING)
-    val status: IntegrationSiteStatus,
+    val status: IntegrationSiteStatus = ACTIVE,
 ): BaseTimeEntity() {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     val id: Long = 0L
 }
