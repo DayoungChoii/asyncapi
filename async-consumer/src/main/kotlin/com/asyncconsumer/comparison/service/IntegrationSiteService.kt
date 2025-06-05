@@ -5,8 +5,6 @@ import com.asyncconsumer.comparison.dto.IntegrationSiteCreationRequest
 import com.asyncconsumer.comparison.dto.toIntegrationSite
 import com.asyncconsumer.partner.constant.PartnerCreationStatus
 import com.asyncconsumer.partner.constant.PartnerCreationStatus.*
-import com.asyncconsumer.partner.dto.PartnerCreationRequest
-import com.rds.comparison.IntegrationSite
 import com.rds.comparison.IntegrationSiteRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
