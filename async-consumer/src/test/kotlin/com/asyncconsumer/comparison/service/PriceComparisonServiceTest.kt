@@ -4,7 +4,12 @@ import com.appmattus.kotlinfixture.kotlinFixture
 import com.asyncconsumer.common.exception.comparison.ExternalPriceApiException
 import com.asyncconsumer.comparison.service.adapter.IntegrationSiteAdapter
 import com.asyncconsumer.comparison.service.adapter.IntegrationSiteAdapterFactory
+import com.asyncconsumer.testsupport.AdapterStubs
+import com.asyncconsumer.testsupport.IntegrationSiteFixtures
+import com.asyncconsumer.testsupport.ProductFixtures
 import com.rds.comparison.IntegrationSite
+import com.rds.comparison.IntegrationSiteCode
+import com.rds.comparison.IntegrationSiteCode.*
 import com.rds.comparison.IntegrationSiteRepository
 import com.rds.product.Product
 import com.rds.product.ProductRepository
@@ -13,6 +18,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
@@ -33,12 +39,11 @@ class PriceComparisonServiceTest {
     @Test
     fun `어댑터에서 예외가 발생해도 터지지 않고 경고 로그를 남긴다`() = runTest {
         // given
-        val fakeProduct = getFakeProduct()
-        val fakeSite = getFakeSite()
+        val fakeProduct = ProductFixtures.createProduct()
+        val fakeSite = IntegrationSiteFixtures.createFakeSite(COUPUNG)
 
-        every { productRepository.findByIdOrNull(1L) } returns fakeProduct
-        every { siteRepository.findAll() } returns listOf(fakeSite)
-        every { adapterFactory.getAdapter("COUPUNG") } returns adapter
+        stubRepositories(fakeProduct, listOf(fakeSite))
+        every { adapterFactory.getAdapter(COUPUNG) } returns adapter
         coEvery { adapter.compareProductPrice(any()) } throws ExternalPriceApiException(RuntimeException("외부 api 호출 실패"))
 
         //system under test
@@ -56,13 +61,54 @@ class PriceComparisonServiceTest {
         // then
         coVerify(exactly = 1) { adapter.compareProductPrice(any()) }
     }
-    private fun getFakeSite() = fixture<IntegrationSite> {
-        property(IntegrationSite::code) { "COUPUNG" }
-        property(IntegrationSite::baseUrl) { "https://api.kakao.com" }
-        property(IntegrationSite::apiEndPoint) { "/search" }
+    @Test
+    fun `여러 개의 사이트들에서 가격을 가져오는 도중 하나의 사이트에서 예외가 발생해도 나머지 사이트는 정상작동한다`() = runTest {
+        // given
+        val fakeProduct = ProductFixtures.createProduct()
+        val fakeSites = IntegrationSiteFixtures.createAllFakeSites()
+
+        stubRepositories(fakeProduct, fakeSites)
+
+        val adapterMap = AdapterStubs.withFirstAdapterFailing(fakeSites, fakeProduct)
+        stubAdapterFactory(adapterMap)
+
+        val sut = createService()
+
+        // when
+        sut.startComparison(1L)
+        advanceUntilIdle()
+
+        // then
+        verifyEachAdapterWasCalled(adapterMap)
     }
 
-    private fun getFakeProduct() = fixture<Product> {
-        property(Product::name) { "테스트 상품" }
+    private fun verifyEachAdapterWasCalled(adapterMap: Map<IntegrationSiteCode, IntegrationSiteAdapter>) {
+        adapterMap.forEach { (code, adapter) ->
+            coVerify(exactly = 1) {
+                adapter.compareProductPrice(match { it.integrationSite.code == code })
+            }
+        }
     }
+
+    private fun TestScope.createService() = PriceComparisonService(
+        applicationScope = this,
+        integrationSiteRepository = siteRepository,
+        productRepository = productRepository,
+        integrationSiteAdapterFactory = adapterFactory,
+    )
+
+    private fun stubAdapterFactory(adapterMap: Map<IntegrationSiteCode, IntegrationSiteAdapter>) {
+        values().forEach { code ->
+            every { adapterFactory.getAdapter(code) } returns adapterMap.getValue(code)
+        }
+    }
+
+    private fun stubRepositories(
+        fakeProduct: Product,
+        fakeSites: List<IntegrationSite>
+    ) {
+        every { productRepository.findByIdOrNull(1L) } returns fakeProduct
+        every { siteRepository.findAll() } returns fakeSites
+    }
+
 }

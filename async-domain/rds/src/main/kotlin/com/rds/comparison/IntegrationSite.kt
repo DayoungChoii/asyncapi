@@ -9,7 +9,8 @@ import jakarta.persistence.GenerationType.*
 @Entity
 class IntegrationSite (
     val name: String,
-    val code: String,
+    @Enumerated(STRING)
+    val code: IntegrationSiteCode,
     val baseUrl: String,
     @Enumerated(STRING)
     val integrationType: IntegrationType,
