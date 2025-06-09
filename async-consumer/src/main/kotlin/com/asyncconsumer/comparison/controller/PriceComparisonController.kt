@@ -13,7 +13,7 @@ class PriceComparisonController (
     private val priceComparisonService: PriceComparisonService
 ) {
 
-    fun performPriceComparison(productId: Long): ResponseEntity<StatusResult<PriceComparisonStatus>> {
+    suspend fun performPriceComparison(productId: Long): ResponseEntity<StatusResult<PriceComparisonStatus>> {
         priceComparisonService.startComparison(productId)
         return StatusResult(SUCCESS).toResponse()
     }

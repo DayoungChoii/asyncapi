@@ -48,7 +48,6 @@ class PriceComparisonServiceTest {
 
         //system under test
         val sut = PriceComparisonService(
-            applicationScope = this,
             integrationSiteRepository = siteRepository,
             productRepository = productRepository,
             integrationSiteAdapterFactory = adapterFactory,
@@ -91,7 +90,6 @@ class PriceComparisonServiceTest {
     }
 
     private fun TestScope.createService() = PriceComparisonService(
-        applicationScope = this,
         integrationSiteRepository = siteRepository,
         productRepository = productRepository,
         integrationSiteAdapterFactory = adapterFactory,

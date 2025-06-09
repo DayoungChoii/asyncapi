@@ -6,15 +6,15 @@ import com.asyncconsumer.comparison.dto.PriceComparisonRequest
 import com.asyncconsumer.comparison.service.adapter.IntegrationSiteAdapterFactory
 import com.rds.comparison.IntegrationSiteRepository
 import com.rds.product.ProductRepository
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
 class PriceComparisonService (
-    private val applicationScope: CoroutineScope,
     private val integrationSiteRepository: IntegrationSiteRepository,
     private val productRepository: ProductRepository,
     private val integrationSiteAdapterFactory: IntegrationSiteAdapterFactory,
@@ -23,12 +23,12 @@ class PriceComparisonService (
     companion object {
         private val log = LoggerFactory.getLogger(PriceComparisonService::class.java)
     }
-    fun startComparison(productId: Long) {
+    suspend fun startComparison(productId: Long) = supervisorScope {
         val product = productRepository.findByIdOrNull(productId) ?: throw ProductNotFoundException()
         val integrationSites = integrationSiteRepository.findAll()
 
         integrationSites.forEach { site ->
-            applicationScope.launch {
+            launch(Dispatchers.IO) {
                 try {
                     val adapter = integrationSiteAdapterFactory.getAdapter(site.code)
                     val comparisonRequest = PriceComparisonRequest(product = product, integrationSite = site)
@@ -42,3 +42,4 @@ class PriceComparisonService (
         }
     }
 }
+
