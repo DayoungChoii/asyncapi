@@ -20,10 +20,15 @@ class PriceComparison (
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "integration_id")
     val integrationSite: IntegrationSite,
-    val price: BigDecimal,
-    val productUrl: String,
+    var price: BigDecimal,
+    var productUrl: String,
 ): BaseTimeEntity() {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     val id: Long = 0L
+
+    fun update(price: BigDecimal, productUrl: String) {
+        this.price = price
+        this.productUrl = productUrl
+    }
 }

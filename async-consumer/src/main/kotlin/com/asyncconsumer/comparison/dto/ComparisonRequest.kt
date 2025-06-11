@@ -5,6 +5,7 @@ import com.rds.comparison.IntegrationSiteCode
 import com.rds.comparison.IntegrationType
 import com.rds.product.Product
 import jakarta.validation.constraints.NotBlank
+import java.math.BigDecimal
 
 data class IntegrationSiteCreationRequest (
     @field:NotBlank
@@ -28,4 +29,11 @@ fun IntegrationSiteCreationRequest.toIntegrationSite(): IntegrationSite =
 data class PriceComparisonRequest (
     val product: Product,
     val integrationSite: IntegrationSite,
+)
+
+data class PriceComparisonResultRequest(
+    val productId: Long,
+    val partnerSiteCode: IntegrationSiteCode,
+    val price: BigDecimal,
+    val productUrl: String
 )
