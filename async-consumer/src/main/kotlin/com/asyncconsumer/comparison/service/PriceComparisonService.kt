@@ -1,7 +1,7 @@
 package com.asyncconsumer.comparison.service
 
 import com.asyncconsumer.common.exception.comparison.ExternalPriceApiException
-import com.asyncconsumer.common.exception.product.ProductNotFoundException
+import com.rds.product.exception.ProductNotFoundException
 import com.asyncconsumer.comparison.dto.PriceComparisonRequest
 import com.asyncconsumer.comparison.service.adapter.IntegrationSiteAdapterFactory
 import com.rds.comparison.IntegrationSiteRepository
