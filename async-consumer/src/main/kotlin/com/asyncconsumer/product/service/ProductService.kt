@@ -1,7 +1,7 @@
 package com.asyncconsumer.product.service
 
 import com.asyncconsumer.common.StatusDataResult
-import com.asyncconsumer.common.exception.partner.PartnerNotFoundException
+import com.rds.partner.exception.PartnerNotFoundException
 import com.asyncconsumer.product.constant.ProductCreationStatus
 import com.asyncconsumer.product.constant.ProductCreationStatus.*
 import com.asyncconsumer.product.dto.ProductCreationRequest

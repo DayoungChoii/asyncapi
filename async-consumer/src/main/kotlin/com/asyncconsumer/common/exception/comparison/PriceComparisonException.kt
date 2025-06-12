@@ -1,7 +1,7 @@
 package com.asyncconsumer.common.exception.comparison
 
-import com.asyncconsumer.common.exception.CustomException
-import com.asyncconsumer.common.exception.CustomExceptionType
+import com.asyncsharedkernel.exception.CustomException
+import com.asyncsharedkernel.exception.CustomExceptionType
 
 class ExternalPriceApiException(
     e: Exception,

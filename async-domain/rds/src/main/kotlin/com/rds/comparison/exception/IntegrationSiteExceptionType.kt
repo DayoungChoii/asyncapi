@@ -1,6 +1,6 @@
-package com.asyncconsumer.common.exception.comparison
+package com.rds.comparison.exception
 
-import com.asyncconsumer.common.exception.CustomExceptionType
+import com.asyncsharedkernel.exception.CustomExceptionType
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatusCode
 

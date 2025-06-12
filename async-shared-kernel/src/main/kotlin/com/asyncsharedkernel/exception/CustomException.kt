@@ -1,4 +1,4 @@
-package com.asyncconsumer.common.exception
+package com.asyncsharedkernel.exception
 
 import org.springframework.http.HttpStatusCode
 

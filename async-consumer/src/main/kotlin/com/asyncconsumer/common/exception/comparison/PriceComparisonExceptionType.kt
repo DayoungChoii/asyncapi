@@ -1,6 +1,6 @@
 package com.asyncconsumer.common.exception.comparison
 
-import com.asyncconsumer.common.exception.CustomExceptionType
+import com.asyncsharedkernel.exception.CustomExceptionType
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatusCode
 

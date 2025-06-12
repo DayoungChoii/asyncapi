@@ -1,6 +1,6 @@
-package com.asyncconsumer.common.exception.partner
+package com.rds.partner.exception
 
-import com.asyncconsumer.common.exception.CustomExceptionType
+import com.asyncsharedkernel.exception.CustomExceptionType
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatusCode
 
