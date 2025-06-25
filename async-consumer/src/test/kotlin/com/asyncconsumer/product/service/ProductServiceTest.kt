@@ -2,7 +2,6 @@ package com.asyncconsumer.product.service
 
 import com.appmattus.kotlinfixture.kotlinFixture
 import com.asyncconsumer.AsyncConsumerApplication
-import com.asyncconsumer.partner.constant.PartnerCreationStatus
 import com.asyncconsumer.product.constant.ProductCreationStatus
 import com.asyncconsumer.product.dto.ProductCreationRequest
 import com.rds.partner.Partner

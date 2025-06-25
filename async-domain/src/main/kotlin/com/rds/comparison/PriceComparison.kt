@@ -1,7 +1,6 @@
 package com.rds.comparison
 
 import com.rds.BaseTimeEntity
-import com.rds.partner.Partner
 import com.rds.product.Product
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType.LAZY

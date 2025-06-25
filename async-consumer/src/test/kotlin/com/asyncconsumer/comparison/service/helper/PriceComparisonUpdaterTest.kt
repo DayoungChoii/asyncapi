@@ -6,7 +6,6 @@ import com.asyncconsumer.testsupport.ProductFixtures
 import com.rds.comparison.IntegrationSiteCode
 import com.rds.comparison.PriceComparison
 import com.rds.comparison.PriceComparisonRepository
-import com.rds.product.Product
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension

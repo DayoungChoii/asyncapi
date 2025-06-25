@@ -1,6 +1,5 @@
 package com.asyncconsumer.product.service
 
-import com.rds.partner.Partner
 import com.rds.product.Product
 import org.springframework.cache.annotation.CachePut
 import org.springframework.stereotype.Service
