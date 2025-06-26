@@ -1,4 +1,4 @@
-package com.redis.config
+package com.redis.cache.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator

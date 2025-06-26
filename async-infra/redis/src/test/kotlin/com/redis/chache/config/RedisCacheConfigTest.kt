@@ -1,4 +1,4 @@
-package com.redis.config
+package com.redis.chache.config
 
 import com.asyncproducer.RedisApplication
 import org.assertj.core.api.Assertions.assertThat

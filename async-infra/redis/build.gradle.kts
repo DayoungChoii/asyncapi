@@ -22,8 +22,11 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("io.lettuce.core:lettuce-core")
+	implementation("com.fasterxml.jackson.core:jackson-databind:2.17.1")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+	testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+	testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

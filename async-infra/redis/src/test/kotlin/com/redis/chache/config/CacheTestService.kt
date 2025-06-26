@@ -1,4 +1,4 @@
-package com.redis.config
+package com.redis.chache.config
 
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
