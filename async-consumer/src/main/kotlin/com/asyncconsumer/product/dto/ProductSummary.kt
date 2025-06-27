@@ -1,6 +1,5 @@
 package com.asyncconsumer.product.dto
 
-import com.rds.partner.Partner
 import com.rds.product.Product
 import java.math.BigDecimal
 
@@ -10,7 +9,7 @@ data class ProductSummary (
     val price: BigDecimal,
 ) {
     companion object {
-        fun of(product: Product) =
+        fun from(product: Product) =
             ProductSummary(product.id, product.name, product.price)
 
     }
