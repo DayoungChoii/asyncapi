@@ -7,7 +7,7 @@ data class PartnerSummary (
     val name: String,
 ) {
     companion object {
-        fun of(partner: Partner) =
+        fun from(partner: Partner) =
             PartnerSummary(partner.id, partner.name)
 
     }

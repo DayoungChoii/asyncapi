@@ -22,7 +22,7 @@ class PartnerCreatedEventHandler(
         CoroutineScope(Dispatchers.IO).launch() {
             try {
                 val partner = event.partner
-                val partnerSummary = PartnerSummary.of(partner) // 변환 함수 별도 정의
+                val partnerSummary = PartnerSummary.from(partner) // 변환 함수 별도 정의
 
                 cacheRepository.set(
                     CacheKey.partner(partnerSummary.id),
