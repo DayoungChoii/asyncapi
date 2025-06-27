@@ -22,5 +22,7 @@ class PriceComparisonResultService(
         val site = integrationSiteFinder.getByCode(request.partnerSiteCode)
         priceComparisonUpdater.upsert(product, site, request)
         priceComparisonLogger.log(product, site, request)
+
+
     }
 }
