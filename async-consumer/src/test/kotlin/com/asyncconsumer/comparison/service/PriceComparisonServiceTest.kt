@@ -4,6 +4,7 @@ import com.appmattus.kotlinfixture.kotlinFixture
 import com.asyncconsumer.common.exception.comparison.ExternalPriceApiException
 import com.asyncconsumer.comparison.service.adapter.IntegrationSiteAdapter
 import com.asyncconsumer.comparison.service.adapter.IntegrationSiteAdapterFactory
+import com.asyncconsumer.domain.helper.ProductFinder
 import com.asyncconsumer.testsupport.AdapterStubs
 import com.asyncconsumer.testsupport.IntegrationSiteFixtures
 import com.asyncconsumer.testsupport.ProductFixtures
@@ -12,26 +13,21 @@ import com.rds.comparison.IntegrationSiteCode
 import com.rds.comparison.IntegrationSiteCode.*
 import com.rds.comparison.IntegrationSiteRepository
 import com.rds.product.Product
-import com.rds.product.ProductRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.data.repository.findByIdOrNull
-import java.lang.RuntimeException
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class PriceComparisonServiceTest {
 
-    val fixture = kotlinFixture()
-
-    private val productRepository = mockk<ProductRepository>()
+    private val productFinder = mockk<ProductFinder>()
     private val siteRepository = mockk<IntegrationSiteRepository>()
     private val adapterFactory = mockk<IntegrationSiteAdapterFactory>()
     private val adapter = mockk<IntegrationSiteAdapter>()
@@ -47,11 +43,7 @@ class PriceComparisonServiceTest {
         coEvery { adapter.compareProductPrice(any()) } throws ExternalPriceApiException(RuntimeException("외부 api 호출 실패"))
 
         //system under test
-        val sut = PriceComparisonService(
-            integrationSiteRepository = siteRepository,
-            productRepository = productRepository,
-            integrationSiteAdapterFactory = adapterFactory,
-        )
+        val sut = createService()
 
         // when
         sut.startComparison(1L)
@@ -89,9 +81,9 @@ class PriceComparisonServiceTest {
         }
     }
 
-    private fun TestScope.createService() = PriceComparisonService(
+    private fun createService() = PriceComparisonService(
         integrationSiteRepository = siteRepository,
-        productRepository = productRepository,
+        productFinder = productFinder,
         integrationSiteAdapterFactory = adapterFactory,
     )
 
@@ -105,7 +97,7 @@ class PriceComparisonServiceTest {
         fakeProduct: Product,
         fakeSites: List<IntegrationSite>
     ) {
-        every { productRepository.findByIdOrNull(1L) } returns fakeProduct
+        every { productFinder.getProductById(1L) } returns fakeProduct
         every { siteRepository.findAll() } returns fakeSites
     }
 
