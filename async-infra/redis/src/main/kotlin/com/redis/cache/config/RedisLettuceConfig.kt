@@ -26,8 +26,11 @@ class RedisLettuceConfig {
         redisClient.connect()
 
     @Bean
-    fun redisCoroutinesCommands(connection: StatefulRedisConnection<String, String>): RedisCoroutinesCommands<String, String> =
-        connection.coroutines()
+    fun redisCoroutinesCommands(
+        connection: StatefulRedisConnection<String, String>
+    ): RedisCoroutinesCommands<String, String> {
+        return connection.coroutines()
+    }
 
     @Bean
     fun cacheRepository(redis: RedisCoroutinesCommands<String, String>): CacheRepository =

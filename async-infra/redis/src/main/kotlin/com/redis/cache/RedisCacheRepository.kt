@@ -2,8 +2,10 @@ package com.redis.cache
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.lettuce.core.api.coroutines.RedisCoroutinesCommands
+import org.springframework.stereotype.Repository
 import java.time.Duration
 
+@Repository
 class RedisCacheRepository(
     private val redisCommands: RedisCoroutinesCommands<String, String>,
     private val objectMapper: ObjectMapper

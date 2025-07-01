@@ -1,7 +1,11 @@
 package com.redis.cache
 
 object CacheKey {
-    fun partner(id: Long): String = "partner:$id"
-    fun product(id: Long): String = "product:$id"
-    fun priceComparison(productId: Long): String = "product_comparison:$productId"
+    private const val PARTNER_PREFIX = "partner"
+    private const val PRODUCT_PREFIX = "product"
+    private const val PRICE_COMPARISON_PREFIX = "product_comparison"
+
+    fun partner(id: Long): String = "$PARTNER_PREFIX:$id"
+    fun product(id: Long): String = "$PRODUCT_PREFIX:$id"
+    fun priceComparison(productId: Long): String = "$PRICE_COMPARISON_PREFIX:$productId"
 }
