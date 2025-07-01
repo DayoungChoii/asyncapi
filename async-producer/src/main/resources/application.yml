@@ -1,0 +1,17 @@
+server:
+  port: 8070
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092  # ?? ???
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springframework.web.servlet.DispatcherServlet: DEBUG
+
+redis:
+  host: localhost
+  port: 6379
+  url: redis://localhost:6379
