@@ -33,8 +33,10 @@ class PriceComparisonService (
                     adapter.compareProductPrice(comparisonRequest)
                 } catch (e: ExternalPriceApiException) {
                     log.warn("가격 요청 실패 [site=${site.code}] : ${e.message}", e)
+                    //TODO: 모니터링 시스템 연동
                 } catch (e: Exception) {
                     log.error("알 수 없는 오류 발생 [site=${site.code}]", e)
+                    //TODO: 모니터링 시스템 연동
                 }
             }
         }
