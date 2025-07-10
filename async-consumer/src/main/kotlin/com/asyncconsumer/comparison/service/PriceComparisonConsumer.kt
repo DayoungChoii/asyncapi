@@ -1,7 +1,6 @@
-package com.asyncconsumer.comparison
+package com.asyncconsumer.comparison.service
 
 import com.asyncconsumer.common.logger.logger
-import com.asyncconsumer.comparison.service.PriceComparisonService
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Service
