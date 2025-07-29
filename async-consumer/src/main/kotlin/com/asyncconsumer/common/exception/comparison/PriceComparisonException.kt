@@ -7,3 +7,13 @@ class ExternalPriceApiException(
     e: Exception,
     customExceptionType: CustomExceptionType = ExternalPriceApiExceptionType
 ): CustomException(customExceptionType, e)
+
+class ExternalPriceApiTimeOutException(
+    e: Exception,
+    customExceptionType: CustomExceptionType = ExternalPriceApiTimeOutExceptionType
+): CustomException(customExceptionType, e)
+
+class InternalPriceApiTimeOutException(
+    e: Exception,
+    customExceptionType: CustomExceptionType = ExternalPriceApiTimeOutExceptionType
+): CustomException(customExceptionType, e)

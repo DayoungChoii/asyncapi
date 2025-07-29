@@ -8,3 +8,8 @@ object ExternalPriceApiExceptionType: CustomExceptionType {
     override val httpStatusCode: HttpStatusCode = HttpStatus.INTERNAL_SERVER_ERROR
     override val message: String = "External API fail"
 }
+
+object ExternalPriceApiTimeOutExceptionType: CustomExceptionType {
+    override val httpStatusCode: HttpStatusCode = HttpStatus.INTERNAL_SERVER_ERROR
+    override val message: String = "External API network fail"
+}
