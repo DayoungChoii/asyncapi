@@ -19,6 +19,7 @@ fun CoroutineScope.alarmLaunch(
     return launch(context + CoroutineExceptionHandler { _, e ->
         log.error("가격 요청 실패 [site=${site.code}] : ${e.message}", e)
         //TODO: 모니터링 시스템 연동
+        throw e
     }) {
         try {
             withTimeout(60_000) {

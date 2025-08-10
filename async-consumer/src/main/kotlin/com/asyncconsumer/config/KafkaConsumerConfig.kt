@@ -1,6 +1,7 @@
 package com.asyncconsumer.config
 
 import org.apache.kafka.clients.consumer.ConsumerConfig
+import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -8,7 +9,11 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.ConsumerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
+import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.listener.ContainerProperties
+import org.springframework.kafka.listener.DeadLetterPublishingRecoverer
+import org.springframework.kafka.listener.DefaultErrorHandler
+import org.springframework.kafka.support.ExponentialBackOffWithMaxRetries
 import org.springframework.kafka.support.serializer.JsonDeserializer
 
 @Configuration
@@ -32,13 +37,31 @@ class KafkaConsumerConfig {
     }
 
     @Bean
+    fun errorHandler(kafkaTemplate: KafkaTemplate<Any, Any>): DefaultErrorHandler {
+        // 재시도: 최대 3회, 1초 → 2배씩 → 최대 5초
+        val backOff = ExponentialBackOffWithMaxRetries(3).apply {
+            initialInterval = 1000L
+            multiplier = 2.0
+            maxInterval = 5000L
+        }
+
+        val recoverer = DeadLetterPublishingRecoverer(kafkaTemplate) { record, _ ->
+            TopicPartition(record.topic() + ".DLT", record.partition())
+        }
+
+        return DefaultErrorHandler(recoverer, backOff)
+    }
+
+    @Bean
     fun kafkaListenerContainerFactory(
-        consumerFactory: ConsumerFactory<String, String>
+        consumerFactory: ConsumerFactory<String, String>,
+        errorhandler: DefaultErrorHandler
     ): ConcurrentKafkaListenerContainerFactory<String, String> {
         val factory = ConcurrentKafkaListenerContainerFactory<String, String>()
         factory.consumerFactory = consumerFactory
         factory.isBatchListener = false
         factory.containerProperties.ackMode = ContainerProperties.AckMode.RECORD
+        factory.setCommonErrorHandler(errorhandler)
         return factory
     }
 }
