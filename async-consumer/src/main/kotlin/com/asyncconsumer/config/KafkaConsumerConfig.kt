@@ -49,7 +49,13 @@ class KafkaConsumerConfig {
             TopicPartition(record.topic() + ".DLT", record.partition())
         }
 
-        return DefaultErrorHandler(recoverer, backOff)
+        return DefaultErrorHandler(recoverer, backOff).apply {
+            addNotRetryableExceptions(
+                org.apache.kafka.common.errors.SerializationException::class.java,
+                org.springframework.kafka.support.serializer.DeserializationException::class.java,
+                com.fasterxml.jackson.core.JsonProcessingException::class.java
+            )
+        }
     }
 
     @Bean
